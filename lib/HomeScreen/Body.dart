@@ -3,8 +3,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:test_icebergdevelopers/Base/Base.dart';
 import 'package:test_icebergdevelopers/Models/CategoriesModel.dart';
 import 'package:test_icebergdevelopers/Models/Productsmodel.dart';
+import 'package:test_icebergdevelopers/ProductCard/ProductCard.dart';
 
 import '../Base/Base.dart';
+import '../Constant.dart';
 import 'ColorConstant.dart';
 
 class Body extends StatefulWidget {
@@ -109,7 +111,39 @@ class _BodyState extends State<Body> {
       drawer: new Drawer(
         child: Column(
           children: [
-            Text('adad')
+            Padding(
+              padding: const EdgeInsets.only(top: 150.0,left: 8.0,right: 8.0),
+              child: RichText(
+                text: TextSpan(
+
+                  style: DefaultTextStyle.of(context).style,
+                  children: const <TextSpan>[
+                    TextSpan(text: 'A B A ', style: TextStyle( fontSize: 50)),
+                    TextSpan(text: 'Y',style: TextStyle(color: Colors.orange,fontSize: 50,)),
+                    TextSpan(text: ' A',style: TextStyle(fontSize: 50)),
+                  ],
+                ),
+
+
+
+              ),
+            ),
+            for (Draw item in drawerItems)
+              ListTile(
+                leading: Icon(
+                  item.icon,
+
+                ),
+                title: Text(
+                  item.title,
+                  style: TextStyle(
+                   color: Colors.grey
+                  ),
+                ),
+                trailing: Icon(Icons.chevron_right),
+              ),
+
+
           ],
         ),
       ),
@@ -121,16 +155,15 @@ class _BodyState extends State<Body> {
           backgroundColor: Colors.white,
           title: Text('Categories',style: TextStyle(color:Colors.black),),
 
+
           actions: [
             Builder(
               builder: (context) => IconButton(
                 icon: new Icon(Icons.menu,color: Colors.black,),
-                onPressed: () => Scaffold.of(context).openDrawer(),
+                onPressed: () => Scaffold.of(context).openEndDrawer(),
               ),
             ),
-            IconButton(icon: Icon(Icons.menu,color: Colors.black,), onPressed: (){
 
-            })
           ],
         ),
         endDrawer: flag?Center(
@@ -139,18 +172,18 @@ class _BodyState extends State<Body> {
             size: 50.0,
           ),
         ):Drawer(
-          child: Container(
-            width: MediaQuery.of(context).size.width  ,
+          child:
+          Container(
+
             child: ListView.separated(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               itemCount: _categorylist.length,
               separatorBuilder: (BuildContext context, int index) => const Divider(),
               itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: [
-                    Text(_categorylist[index].categoryName)
-                  ],
+               return ListTile(
+                  title: Text(_categorylist[index].categoryName,style: TextStyle(color: Colors.grey),),
+                  trailing: Icon(Icons.chevron_right),
                 );
               },
             ),
@@ -199,27 +232,9 @@ class _BodyState extends State<Body> {
             ),
             itemCount: _productslist.length,
             itemBuilder: (BuildContext context, int index) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                Container(
-                  width: MediaQuery.of(context).size.width*0.3,
-                  height: MediaQuery.of(context).size.height*0.3,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black)
-                  ),
-                  child: Image.network(images[index],fit: BoxFit.cover,)),
-                  Text(
-                    _productslist[index].brandName,
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(fontSize: 18.0),
-                    ),
-                  Text('PKR:590',style: TextStyle(color: Colors.yellow[500]),)
+              return
+                CardExample(images[index],_productslist[index]);
 
-                ],
-              );
             }
         ),
       ),
